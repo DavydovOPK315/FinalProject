@@ -1,0 +1,53 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jspf/taglib.jspf" %>
+
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="resources"/>
+
+<header>
+    <link rel="stylesheet" href="${app}/static/css/locale.css">
+
+    <div class="content">
+        <a href="${app}/elective/courses">
+            <img src="${app}/static/image/ElectiveIcon.png" alt="Logo" class="header__logo"/>
+        </a>
+
+        <div class="menu">
+            <div class="icon-close">
+                <img src="${app}/static/image/x.png">
+            </div>
+            <nav>
+                <a href="" class="nav-link"><fmt:message key="about.us"/> </a>
+                <a href="" class="nav-link"><fmt:message key="FAQ"/> </a>
+            </nav>
+        </div>
+
+        <c:if test="${sessionScope.lang != 'uk_UA'}">
+            <div class="login-container">
+                <form action="${app}/locale" METHOD="POST">
+                    <input type="hidden" name="lang" value="uk_UA"/>
+                    <button type="submit" class="button-login">UA</button>
+                </form>
+            </div>
+        </c:if>
+        <c:if test="${not empty sessionScope.lang}">
+            <div class="login-container">
+                <form action="${app}/locale" METHOD="POST">
+                    <input type="hidden" name="lang" value=""/>
+                    <button type="submit" class="button-login">ENG</button>
+                </form>
+            </div>
+        </c:if>
+
+        <c:if test="${not empty sessionScope.user}">
+            <div>
+                <a href="${app}/elective/account" class=" btn"><fmt:message key="profile"/> </a>
+            </div>
+        </c:if>
+        <c:if test="${empty sessionScope.user}">
+            <div>
+                <a href="${app}/login.jsp" class=" btn"><fmt:message key="header_login"/> </a>
+            </div>
+        </c:if>
+    </div>
+</header>

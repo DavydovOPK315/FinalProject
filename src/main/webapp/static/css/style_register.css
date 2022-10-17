@@ -3,13 +3,8 @@ ul {
     padding: 20px;
 }
 
-.errorlist ul {
-    margin: 5px !important;
-    padding: 5px !important;
-}
-
 body {
-    background: url('witcher.jpg') no-repeat center center fixed !important;
+    background: url('../image/ElectiveMain.jpg') no-repeat center center fixed !important;
     background-size: cover !important;
 }
 
@@ -19,52 +14,15 @@ body {
     --dark--green: #2c3e42;
 }
 
-.reset {
-    margin: 20px;
-    font-size: 20px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.reset_small {
-    font-size: 12px;
-    text-align: center;
-}
-
-.section_reset_password {
-    min-height: 450px;
-    margin-top: 150px;
-}
-
 .framesignup {
     min-height: 570px;
     width: 530px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     background-size: cover;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 150px;
-    margin-bottom: 150px;
+    margin: 150px auto;
     border-top: solid 1px rgba(255, 255, 255, .5);
     border-radius: 5px;
-    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    -webkit-transition: all .5s ease;
-    transition: all .5s ease;
-}
-
-.frame_confirm {
-    min-height: 200px;
-    width: 530px;
-    background: rgba(0, 0, 0, 0.5);
-    background-size: cover;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 150px;
-    margin-bottom: 150px;
-    border-top: solid 1px rgba(255, 255, 255, .5);
-    border-radius: 5px;
-    box-shadow: 0px 2px 7px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 7px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
@@ -78,7 +36,6 @@ body {
     -webkit-transition: all .5s ease;
     transition: all .5s ease;
 }
-
 
 .signup-active {
     padding-left: 10px;
@@ -132,13 +89,6 @@ li {
     margin-top: 105px;
     border-top: solid 1px rgba(255, 255, 255, .3);
     text-align: center;
-}
-
-.forget {
-    line-height: 35px;
-    color: #dddfe6;
-    font-size: 15px;
-    text-decoration: none;
 }
 
 .login {
@@ -196,14 +146,9 @@ label {
     display: block;
 }
 
-:focus {
-    outline: none;
-}
-
 .butn-signup {
     float: left;
     background-color: var(--dark--green);
-    padding-top: 8px;
     width: 100%;
     height: 35px;
     border: none;

@@ -1,29 +1,13 @@
-<%--<%@ include file="/WEB-INF/jspf/taglib.jspf" %>--%>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
-<%--<%@ include file="/WEB-INF/jspf/header.jspf" %>--%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/style_login.css"/>">
+    <link rel="stylesheet" type="text/css" href="${app}/static/css/style_login.css">
     <title>Reset form</title>
 </head>
 <body>
-<header>
-    <div class="content">
-        <a href="<%=request.getContextPath()+"/main.jsp"%>">
-            <img src="<c:url value="/static/css/photo/Gameshop.png"/>" alt="Logo" class="header__logo"/>
-        </a>
-        <div class="menu">
-            <div class="icon-close">
-                <img src="<c:url value="/static/css/photo/x.png"/>">
-            </div>
-        </div>
-        <div class="icon-menu">
-            <img src="<c:url value="/static/css/photo/Hamburger.png"/>" height="40">
-        </div>
-    </div>
-</header>
 <main>
     <div class="frame">
         <div class="nav1">
@@ -31,35 +15,37 @@
                 <li class="login-active">
                     <c:choose>
                         <c:when test="${not empty requestScope.message}">
-                            <a class="butn">${requestScope.message}</a>
+                            <div class="errors">
+                                <a class="butn"><fmt:message key="${requestScope.message}"/></a>
+                            </div>
                         </c:when>
                         <c:otherwise>
-                            <a class="butn">Will be sending a reset password link to your email</a>
+                            <div class="errors">
+                                <a class="butn"><fmt:message key="forgot.password.info"/></a>
+                            </div>
                         </c:otherwise>
                     </c:choose>
                 </li>
             </ul>
-            <div>
-                <c:choose>
-                    <c:when test="${not empty requestScope.error}">
-                        <p>${requestScope.error}</p>
-                    </c:when>
-                    <c:otherwise>
-
-                        <form class="form-login" action="<%=request.getContextPath()+"/resetPassword"%>" method="POST">
-                            <label id="email">Enter your email</label>
-                            <input type="email" name="email" class="form-styling" placeholder="Enter your e-mail" required autofocus/>
-                            <div class="butn-animate">
-                                <input type="submit" value="Send" class="butn-login"/>
-                            </div>
-                            <div class="frame-end">
-                                <a class="sign-up" href="<%=request.getContextPath()+"/login.jsp"%>">Log in</a> |
-                                <a class="sign-up" href="<%=request.getContextPath()+"/registration.jsp"%>">Register</a>
-                            </div>
-                        </form>
-                    </c:otherwise>
-                </c:choose>
-            </div>
+            <c:if test="${empty requestScope.error}">
+                <form class="form-login" action="${app}/forgot_password" method="POST">
+                    <label id="email"><fmt:message key="forgot.password.enter.mail"/></label>
+                    <input type="email" name="email" class="form-styling" placeholder="Enter your e-mail" required autofocus
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"/>
+                    <div class="butn-animate">
+                        <input type="submit" value="<fmt:message key="forgot.password.send"/>" class="butn-login"/>
+                    </div>
+                    <div class="frame-end">
+                        <a class="sign-up" href="${app}/login.jsp"> <fmt:message key="form.login.action"/> </a> |
+                        <a class="sign-up" href="${app}/registration.jsp"><fmt:message key="register"/></a>
+                    </div>
+                </form>
+            </c:if>
+            <c:if test="${not empty requestScope.error}">
+                <div class="errors">
+                    <p class="text-error"><fmt:message key="${requestScope.error}"/></p>
+                </div>
+            </c:if>
         </div>
     </div>
 </main>

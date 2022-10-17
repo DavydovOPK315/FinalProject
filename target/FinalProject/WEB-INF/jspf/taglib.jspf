@@ -12,3 +12,13 @@ JSTL functions tag library.
 JSTL i18n tag library.
 ===========================================================================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%--===========================================================================
+Tag file for showing user full name
+===========================================================================--%>
+<%@ taglib prefix="mylib" tagdir="/WEB-INF/tags" %>
+
+<%--===========================================================================
+Custom tag for showing date start and date end for course
+===========================================================================--%>
+<%@ taglib prefix="mylib2" uri="/WEB-INF/custom.tld" %>

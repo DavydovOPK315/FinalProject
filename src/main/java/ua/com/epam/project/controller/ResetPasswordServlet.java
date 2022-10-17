@@ -1,61 +1,62 @@
 package ua.com.epam.project.controller;
 
+import ua.com.epam.project.entity.User;
 import ua.com.epam.project.service.UserService;
 import ua.com.epam.project.service.impl.UserServiceImpl;
 
-import javax.mail.*;
-
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Properties;
 
-@WebServlet("/resetPassword")
+/**
+ * Reset password servlet
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
+@WebServlet("/reset_password")
 public class ResetPasswordServlet extends HttpServlet {
-
     private final UserService userService = UserServiceImpl.getInstance();
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String to = req.getParameter("email");
-        String from = "gameshopcontactmail@gmail.com";
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String token = req.getParameter("token");
+        User user = userService.getUserByToken(token);
+        req.setAttribute("token", token);
 
-        Properties properties = new Properties();
-
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "587");
-        properties.put("mail.smtp.auth", "true");
-        properties.setProperty("mail.smtp.starttls.enable", "true"); // enable TLS
-
-        Session session = Session.getDefaultInstance(properties,
-                new Authenticator() {
-                    @Override
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(from, "rqapzljcxguzyasz");
-                    }
-                });
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from, "Final Project"));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Here's the link to reset your password");
-            String content = "<p>Hello,</p>" + "<p>You have requested to reset your password.</p>" + "<p>Click the link below to change your password:</p>" + "<p><a href=\""
-                    + "http://localhost:8080/FinalProject/forgot_password_form.jsp"
-                    + "\">Change my password</a></p>" + "<br>" + "<p>Ignore this email if you do remember your password, " + "or you have not made the request.</p>";
-
-            message.setContent(content, "text/html;charset=utf-8");
-            message.saveChanges();
-            Transport.send(message);
-            req.setAttribute("message", "Have sent a reset password link to your email. Please check");
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-            req.setAttribute("error", "Error while sending email");
+        if (user == null) {
+            req.setAttribute("message", "login.invalid.token");
+            getServletContext().getRequestDispatcher("/login.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("validLink", true);
+            getServletContext().getRequestDispatcher("/reset_password_form.jsp").forward(req, resp);
         }
-        getServletContext().getRequestDispatcher("/forgot_password_form.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+        String token = req.getParameter("token");
+
+        if (token == null || token.isEmpty()) {
+            req.setAttribute("validLink", false);
+            req.setAttribute("message", "login.invalid.token");
+            getServletContext().getRequestDispatcher("/reset_password_form.jsp").forward(req, resp);
+        } else {
+            String password = req.getParameter("password");
+            User result = userService.getUserByToken(token);
+
+            if (result == null)
+                session.setAttribute("message", "login.invalid.token");
+            else {
+                userService.updatePassword(result, password);
+                session.setAttribute("message", "login.changed.password");
+            }
+            resp.sendRedirect(req.getContextPath() + "/login");
+        }
     }
 }

@@ -1,78 +1,70 @@
-<%--<%@ include file="/WEB-INF/jspf/taglib.jspf" %>--%>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
-<%--<%@ include file="/WEB-INF/jspf/header.jspf" %>--%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/style_register.css"/>">
+    <link rel="stylesheet" type="text/css" href="${app}/static/css/style_register.css">
     <title>Registration</title>
 </head>
 <body>
-<header>
-    <div class="content">
-        <a href="<%=request.getContextPath()+"/main.jsp"%>"><img src="<c:url value="/static/css/photo/Gameshop.png"/>"
-                                                                 alt="Логотип"
-                                                                 class="header__logo"/></a>
-        <div class="menu">
-            <div class="icon-close">
-                <img src="<c:url value="/static/css/photo/x.png"/>">
-            </div>
-        </div>
-        <div class="icon-menu">
-            <img src="<c:url value="/static/css/photo/Hamburger.png"/>" height="40">
-        </div>
-    </div>
-</header>
 <main>
     <div class="framesignup">
         <div class="nav1">
             <ul class="links">
-                <li class="signup-active"><a class="butn">Sign up</a></li>
+                <li class="signup-active"><a class="butn"><fmt:message key="registration.signup"/> </a></li>
             </ul>
         </div>
-        <%--        <div class="errors" th:if="${formError}">--%>
-        <%--            <p class="text-error" th:text="${formError}"></p>--%>
-        <%--        </div>--%>
 
-        <form class="form-signup" method="POST" action="<%=request.getContextPath()+"/registration"%>">
+        <c:if test="${not empty requestScope.message}">
+            <div class="errors">
+                <p class="text-error"><fmt:message key="${requestScope.message}"/></p>
+            </div>
+        </c:if>
+
+        <form class="form-signup" method="POST" action="${app}/registration">
             <div class="part1">
                 <div class="login">
-                    <label for="login">Login: </label>
-                    <input type="text" id="login" name="login" autofocus required size="30" minlength="4"
-                           class="form-styling form-styling-username">
+                    <label for="login"><fmt:message key="registration.login"/></label>
+                    <input type="text" id="login" name="login" autofocus minlength="4" maxlength="30" required
+                           class="form-styling form-styling-username"
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
                 </div>
                 <div class="email">
-                    <label for="email">Email: </label>
-                    <input type="email" id="email" name="email" required size="30" minlength="4"
-                           class="form-styling form-styling-email">
+                    <label for="email"><fmt:message key="registration.email"/></label>
+                    <input type="email" id="email" name="email" required
+                           class="form-styling form-styling-email"
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
                 </div>
             </div>
             <div class="part2">
                 <div class="first_name">
-                    <label for="first_name">First name: </label>
-                    <input type="text" id="first_name" name="first_name" required size="30" minlength="4"
-                           class="form-styling form-styling-part2">
+                    <label for="first_name"><fmt:message key="registration.firstname"/></label>
+                    <input type="text" id="first_name" name="first_name" minlength="4" maxlength="30" required
+                           class="form-styling form-styling-part2"
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
                 </div>
                 <div class="last_name">
-                    <label for="last_name">Enter last name: </label>
-                    <input type="text" id="last_name" name="last_name" required size="30" minlength="4"
-                           class="form-styling form-styling-part2">
+                    <label for="last_name"><fmt:message key="registration.lastname"/></label>
+                    <input type="text" id="last_name" name="last_name" minlength="4" maxlength="30" required
+                           class="form-styling form-styling-part2"
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
                 </div>
             </div>
             <div class="password">
                 <div class="password1">
-                    <label for="password">Enter password: </label>
-                    <input type="password" id="password" name="password" required size="30" minlength="4"
-                           class="form-styling form-styling-password">
+                    <label for="password"><fmt:message key="registration.password"/></label>
+                    <input type="password" id="password" name="password" minlength="4" maxlength="30" required
+                           class="form-styling form-styling-password"
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
                 </div>
             </div>
             <div class="butn-animate">
-                <button type="submit" class="butn-signup">Register</button>
+                <button type="submit" class="butn-signup"><fmt:message key="register"/></button>
             </div>
             <div class="frame-end">
-                <a class="login" href="<%=request.getContextPath()+"/login.jsp"%>"> Log in | </a>
-                <a class="login" href="<%=request.getContextPath()+"/forgot_password_form.jsp"%>"> Forgot password </a>
+                <a class="login" href="${app}/login.jsp"> <fmt:message key="form.login.action"/> |</a>
+                <a class="login" href="${app}/forgot_password_form.jsp"><fmt:message key="forgotPassword"/></a>
             </div>
         </form>
     </div>

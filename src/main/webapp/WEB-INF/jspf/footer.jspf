@@ -1,0 +1,22 @@
+<%@ page pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jspf/taglib.jspf" %>
+
+<footer>
+    <div class="title__logo">Elective</div>
+    <div class="info">
+        <div class="mail">Ukraine~Kharkiv</div>
+        <div class="mail">E-mail: electivecontactmail@gmail.com</div>
+        <div class="number">(050)042 4768</div>
+        <div class="number">(099)191 1067</div>
+    </div>
+    <nav class="nav">
+        <a href="#" class="nav-link"><fmt:message key="about.us"/></a>
+        <a href="#" class="nav-link"><fmt:message key="FAQ"/></a>
+    </nav>
+    <div class="social">
+        <div><img src="${app}/static/image/facebook-pink.png" width="50" height="50" alt="Logo"/></div>
+        <div><img src="${app}/static/image/instagram-pink.png" width="50" height="50" alt="Logo"/></div>
+        <div><img src="${app}/static/image/twitter-pink.png" width="50" height="50" alt="Logo"/></div>
+        <div><img src="${app}/static/image/youtube-pink.png" width="50" height="50" alt="Logo"/></div>
+    </div>
+</footer>

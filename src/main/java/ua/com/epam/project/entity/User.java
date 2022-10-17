@@ -1,23 +1,23 @@
 package ua.com.epam.project.entity;
 
-import java.io.Serializable;
+import java.util.Objects;
 
-public class User implements Serializable {
-    private int id;
+/**
+ * User class
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
+public class User extends BaseEntity {
     private String login;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
+    private String reset_password_token;
     private int roleId;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public User() {}
 
     public String getLogin() {
         return login;
@@ -59,6 +59,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getReset_password_token() {
+        return reset_password_token;
+    }
+
+    public void setReset_password_token(String reset_password_token) {
+        this.reset_password_token = reset_password_token;
+    }
+
     public int getRoleId() {
         return roleId;
     }
@@ -68,14 +76,30 @@ public class User implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getRoleId() == user.getRoleId() && Objects.equals(getLogin(), user.getLogin()) && Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getCreated(), user.getCreated()) && getStatus() == user.getStatus();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id='" + getId() + '\'' +
                 ", login='" + login + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", created ='" + getCreated() + '\'' +
+                ", status ='" + getStatus().name() + '\'' +
+                ", reset_password_token='" + reset_password_token + '\'' +
                 ", roleId=" + roleId +
                 '}';
     }

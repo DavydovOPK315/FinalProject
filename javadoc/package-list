@@ -1,0 +1,15 @@
+ua.com.epam.project.controller
+ua.com.epam.project.controller.admin.course
+ua.com.epam.project.controller.admin.role
+ua.com.epam.project.controller.admin.topic
+ua.com.epam.project.controller.admin.user
+ua.com.epam.project.dao
+ua.com.epam.project.dao.Impl
+ua.com.epam.project.dto
+ua.com.epam.project.entity
+ua.com.epam.project.filter
+ua.com.epam.project.listener
+ua.com.epam.project.service
+ua.com.epam.project.service.impl
+ua.com.epam.project.tag
+ua.com.epam.project.utils

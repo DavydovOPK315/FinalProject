@@ -1,54 +1,43 @@
-<%--<%@ include file="/WEB-INF/jspf/taglib.jspf" %>--%>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
-<%--<%@ include file="/WEB-INF/jspf/header.jspf" %>--%>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
+<%@ include file="/WEB-INF/jspf/header.jspf" %>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/static/css/style_login.css"/>">
+    <link rel="stylesheet" type="text/css" href="${app}/static/css/style_login.css">
     <title>Login</title>
+    <script src='https://www.google.com/recaptcha/api.js?hl=en'></script>
 </head>
 <body>
-<header>
-    <div class="content">
-        <a href="<%=request.getContextPath()+"/main.jsp"%>"><img src="<c:url value="/static/css/photo/Gameshop.png"/>"
-                                                                 alt="Logo" class="header__logo"/></a>
-        <div class="menu">
-            <div class="icon-close">
-                <img src="<c:url value="/static/css/photo/x.png"/>">
-            </div>
-        </div>
-        <div class="icon-menu">
-            <img src="<c:url value="/static/css/photo/Hamburger.png"/>" height="40">
-        </div>
-    </div>
-</header>
 <main>
     <div class="frame">
         <div class="nav1">
             <ul class="links">
-                <li class="login-active"><a class="butn">Log in</a></li>
+                <li class="login-active"><a class="butn"><fmt:message key="form.login"/></a></li>
             </ul>
         </div>
         <div>
             <c:if test="${not empty requestScope.message}">
                 <div class="errors">
-                    <p class="text-error">${requestScope.message}</p>
+                    <p class="text-error"><fmt:message key="${requestScope.message}"/></p>
                 </div>
             </c:if>
-            <form class="form-login" action="<%=request.getContextPath()+"/login"%>" method="POST">
-                <label for="login">Login: </label>
-                <input type="text" id="login" name="login" autofocus required size="30" minlength="4"
-                       class="form-styling"/>
-                <label for="password">Enter password: </label>
-                <input type="password" id="password" name="password" required size="30" minlength="4"
-                       class="form-styling">
+            <form class="form-login" action="${app}/login" method="POST">
+                <label for="login"><fmt:message key="login"/> </label>
+                <input type="text" id="login" name="login" autofocus minlength="4" maxlength="30" required
+                       class="form-styling" oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"/>
+                <label for="password"><fmt:message key="password"/> </label>
+                <input type="password" id="password" name="password" minlength="4" maxlength="30" required
+                       class="form-styling" oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+
+                <div class="g-recaptcha" data-sitekey="6Ld50h0iAAAAACdkS2bqKN9zYFnBQwppW4uGxc6y"></div>
+                <br/>
                 <div class="butn-animate">
-                    <button type="submit" class="butn-login">Log in</button>
+                    <button type="submit" class="butn-login"><fmt:message key="form.login.action"/></button>
                 </div>
                 <div class="frame-end">
-                    <a class="sign-up" href="<%=request.getContextPath()+"/registration"%>">Register</a> |
-                    <a class="sign-up" href="<%=request.getContextPath()+"/forgot_password_form.jsp"%>">Forgot password</a>
+                    <a class="sign-up" href="${app}/registration.jsp"><fmt:message key="register"/> |</a>
+                    <a class="sign-up" href="${app}/forgot_password_form.jsp"><fmt:message key="forgotPassword"/> </a>
                 </div>
             </form>
         </div>
