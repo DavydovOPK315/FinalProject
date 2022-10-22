@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,7 +40,7 @@
                     ${requestScope.topic.getId()}
                 </td>
                 <td><input type="text" id="name" name="name" value="${requestScope.topic.getName()}" minlength="3"
-                           maxlength="25" required>
+                           maxlength="45" required>
                 </td>
                 <td>${requestScope.topic.getCreated()}</td>
                 <td>

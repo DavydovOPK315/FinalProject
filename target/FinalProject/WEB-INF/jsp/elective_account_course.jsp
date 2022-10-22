@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,18 +55,21 @@
                                 </form>
                             </c:when>
                             <c:when test="${sessionScope.user.getRoleId() == 3 && requestScope.course.getStatus() == 'CURRENT'}">
-                                <input type="submit" value="<fmt:message key="elective.account.course.update.grades"/>" class="button__separate_course">
+                                <input type="submit" value="<fmt:message key="elective.account.course.update.grades"/>"
+                                       class="button__separate_course">
                             </c:when>
                             <c:otherwise>
                                 <form action="${app}/elective/courses" method="get">
-                                    <input type="submit" value="<fmt:message key="elective.separate.course.go.main"/>" class="button__separate_course">
+                                    <input type="submit" value="<fmt:message key="elective.separate.course.go.main"/>"
+                                           class="button__separate_course">
                                 </form>
                             </c:otherwise>
                         </c:choose>
                     </td>
                     <td>
                         <a href="${app}/elective/account/course/print/course/grade/report?courseId=${requestScope.course.getId()}">
-                            <img title="<fmt:message key="elective.account.print"/>" src="${app}/static/image/pdf.png" alt="Print">
+                            <img title="<fmt:message key="elective.account.print"/>" src="${app}/static/image/pdf.png"
+                                 alt="Print">
                         </a>
                     </td>
             </table>

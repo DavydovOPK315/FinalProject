@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +43,7 @@
                 <td><input type="hidden" name="id" value="${requestScope.course.getId()}">
                     ${requestScope.course.getId()}
                 </td>
-                <td><input type="text" name="name" value="${requestScope.course.getName()}" minlength="3" maxlength="25"
+                <td><input type="text" name="name" value="${requestScope.course.getName()}" minlength="3" maxlength="45"
                            required></td>
                 <td><input type="date" name="date_start" value="${requestScope.course.getDateStart()}" required></td>
                 <td><input type="date" name="date_end" value="${requestScope.course.getDateEnd()}" required></td>
@@ -114,7 +114,8 @@
         <c:forEach items="${requestScope.students}" var="student">
             <tr>
                 <td>
-                    <a href="${app}/admin/users/edit?id=${student.getId()}"><mylib:fullname user="" userDto="${student}"/></a>
+                    <a href="${app}/admin/users/edit?id=${student.getId()}"><mylib:fullname user=""
+                                                                                            userDto="${student}"/></a>
                 </td>
                 <c:forEach items="${student.performanceList}" var="perform">
                     <td>${perform.getGrade()}</td>

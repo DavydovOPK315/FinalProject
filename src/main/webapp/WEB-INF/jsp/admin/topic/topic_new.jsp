@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +34,7 @@
         <form action="${app}/admin/topics/new" method="post">
             <tr>
                 <td>default</td>
-                <td><input type="text" id="name" name="name" minlength="3" maxlength="25" required></td>
+                <td><input type="text" id="name" name="name" minlength="3" maxlength="45" required></td>
                 <td>${requestScope.date}</td>
                 <td>
                     <select name="status" required>

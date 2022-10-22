@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +20,7 @@
     <br/>
 
     <c:if test="${not empty requestScope.message}">
-        <h1><fmt:message key="${requestScope.message}"/> </h1>
+        <h1><fmt:message key="${requestScope.message}"/></h1>
         <hr/>
     </c:if>
 
@@ -44,12 +44,14 @@
                     ${requestScope.userDto.getId()}
                 </td>
 
-                <td><input type="hidden" id="login" name="login" value="${requestScope.userDto.getLogin()}" minlength="4" maxlength="30" required>${requestScope.userDto.getLogin()}</td>
+                <td><input type="hidden" id="login" name="login" value="${requestScope.userDto.getLogin()}"
+                           minlength="4" maxlength="30" required>${requestScope.userDto.getLogin()}</td>
                 <td><input type="text" id="first_name" name="first_name" value="${requestScope.userDto.getFirstName()}"
                            minlength="4" maxlength="30" required></td>
                 <td><input type="text" id="last_name" name="last_name" value="${requestScope.userDto.getLastName()}"
                            minlength="4" maxlength="30" required></td>
-                <td><input type="email" id="email" name="email" value="${requestScope.userDto.getEmail()}" required></td>
+                <td><input type="email" id="email" name="email" value="${requestScope.userDto.getEmail()}" required>
+                </td>
                 <td>${requestScope.userDto.getCreated()}</td>
                 <td>
                     <select name="status" required>
@@ -87,10 +89,10 @@
         </tr>
     </table>
 
-    <p><fmt:message key="elective.account.enroll"/> </p>
+    <p><fmt:message key="elective.account.enroll"/></p>
     <c:choose>
         <c:when test="${empty requestScope.courseList}">
-            <h2><fmt:message key="elective.account.not.enroll"/> </h2>
+            <h2><fmt:message key="elective.account.not.enroll"/></h2>
         </c:when>
         <c:otherwise>
             <table class="tg">
@@ -119,9 +121,10 @@
                         </td>
                         <td>${course.getDateStart()}</td>
                         <td>${course.getDateEnd()}</td>
-                        <td><textarea type="text" name="description"
-                                      minlength="5"
-                                      maxlength="500">${course.getDescription()}</textarea>
+                        <td>
+                            <textarea type="text" name="description" minlength="5" maxlength="500">
+                                    ${course.getDescription()}
+                            </textarea>
                         </td>
                         <td>${course.getCreated()}</td>
                         <td>${course.getStatus()}</td>

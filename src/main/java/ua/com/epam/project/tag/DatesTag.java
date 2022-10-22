@@ -33,7 +33,7 @@ public class DatesTag extends TagSupport {
         try {
             out.print(courseDto.getDateStart() + " " + courseDto.getDateEnd());
         } catch (IOException e) {
-            LOG.warn("DatesTag problem");
+            LOG.error("DatesTag problem");
         }
         return super.doStartTag();
     }

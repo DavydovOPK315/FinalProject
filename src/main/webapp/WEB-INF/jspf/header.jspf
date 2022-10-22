@@ -1,4 +1,4 @@
-<%@ page pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -41,7 +41,7 @@
 
         <c:if test="${not empty sessionScope.user}">
             <div>
-                <a href="${app}/elective/account" class=" btn"><fmt:message key="profile"/> </a>
+                <a href="${app}/elective/account" class=" btn"><fmt:message key="${sessionScope.user.getRoleId()}"/>: <br> ${sessionScope.user.getLogin()} </a>
             </div>
         </c:if>
         <c:if test="${empty sessionScope.user}">

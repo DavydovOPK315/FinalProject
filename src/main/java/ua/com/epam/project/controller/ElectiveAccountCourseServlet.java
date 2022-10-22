@@ -44,10 +44,14 @@ public class ElectiveAccountCourseServlet extends HttpServlet {
         UserDto userResult = students.stream().filter(userDto -> userDto.getId() == user.getId()).findFirst().orElse(null);
         List<Topic> topics = topicService.getAllByCourseId(courseId);
 
-        req.setAttribute("course", course);
-        req.setAttribute("user", userResult);
-        req.setAttribute("topics", topics);
-        req.setAttribute("students", students);
-        getServletContext().getRequestDispatcher("/elective_account_course.jsp").forward(req, resp);
+        if (userResult == null && !course.getTeacherLogin().equals(user.getLogin())) {
+            resp.sendError(500);
+        } else {
+            req.setAttribute("course", course);
+            req.setAttribute("user", userResult);
+            req.setAttribute("topics", topics);
+            req.setAttribute("students", students);
+            getServletContext().getRequestDispatcher("/elective_account_course.jsp").forward(req, resp);
+        }
     }
 }

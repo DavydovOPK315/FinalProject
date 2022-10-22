@@ -450,7 +450,7 @@ public class CourseDaoImpl implements CourseDao {
                 while (rs.next()) {
                     course = getCourseDto(rs);
 
-                    try (PreparedStatement ps2 = con.prepareStatement("SELECT ROUND(AVG(grade),0) FROM performance WHERE users_id = ? AND courses_id = ?;")) {
+                    try (PreparedStatement ps2 = con.prepareStatement("SELECT ROUND(AVG(grade),1) FROM performance WHERE users_id = ? AND courses_id = ?;")) {
                         ps2.setInt(1, userId);
                         ps2.setInt(2, course.getId());
 
