@@ -1,4 +1,4 @@
-<%@ page pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ include file="/WEB-INF/jspf/taglib.jspf" %>
 
 <footer>
@@ -10,8 +10,8 @@
         <div class="number">(099)191 1067</div>
     </div>
     <nav class="nav">
-        <a href="#" class="nav-link"><fmt:message key="about.us"/></a>
-        <a href="#" class="nav-link"><fmt:message key="FAQ"/></a>
+        <a href="" class="nav-link"><fmt:message key="about.us"/></a>
+        <a href="" class="nav-link"><fmt:message key="FAQ"/></a>
     </nav>
     <div class="social">
         <div><img src="${app}/static/image/facebook-pink.png" width="50" height="50" alt="Logo"/></div>

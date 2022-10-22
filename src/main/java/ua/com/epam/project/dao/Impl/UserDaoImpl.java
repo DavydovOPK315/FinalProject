@@ -12,6 +12,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * User DAO implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class UserDaoImpl implements UserDao {
     private static final String SELECT_USERS_WITH_ROLES = "SELECT u.id, u.login, u.first_name, u.last_name, u.email, u.created, u.status, r.name FROM users u JOIN roles r ON u.role_id = r.id ORDER BY u.id;";
     private static final String SELECT_USERS_WITH_ROLES_BY_STATUS = "SELECT u.id, u.login, u.first_name, u.last_name, u.email, u.created, u.status, r.name FROM users u JOIN roles r ON u.role_id = r.id AND u.status = ? ORDER BY u.id;";

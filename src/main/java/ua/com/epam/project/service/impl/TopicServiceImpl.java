@@ -8,6 +8,12 @@ import ua.com.epam.project.service.TopicService;
 
 import java.util.List;
 
+/**
+ * Topic service implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class TopicServiceImpl implements TopicService {
     private TopicDao topicDao = DAOFactory.getTopicDao();
     private static TopicService instance;

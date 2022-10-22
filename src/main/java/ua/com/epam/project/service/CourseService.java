@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.util.List;
 
 /**
- * Course service.
+ * Course service
  *
  * @author Denis Davydov
  * @version 2.0

@@ -1,8 +1,10 @@
-$('.all_items').slice(0,3).show();
+$('.all_items').slice(0, 3).show();
 
-$('#btnMore').on('click', function() {
-  $('.all_items:hidden').slice(0,3).slideDown();
-  if($('.all_items:hidden').length === 0) {
-    $('#btnMore').fadeOut();
-  }
+$('#btnMore').on('click', function () {
+    let items = $('.all_items:hidden');
+
+    items.slice(0, 3).slideDown();
+    if (items.length < 4) {
+        $('#btnMore').fadeOut();
+    }
 });

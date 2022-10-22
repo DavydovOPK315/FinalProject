@@ -29,6 +29,7 @@ public class ElectiveAccountServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setIntHeader("Refresh", 1800);
         HttpSession session = req.getSession();
         String message = (String) session.getAttribute("message");
         String courseName = (String) session.getAttribute("courseName");

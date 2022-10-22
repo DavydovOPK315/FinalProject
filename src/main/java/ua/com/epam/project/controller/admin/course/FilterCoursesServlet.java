@@ -52,53 +52,53 @@ public class FilterCoursesServlet extends HttpServlet {
         if (key.equals("date_started")) {
             Date dateStart = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("date_start")).getTime());
             courseDtoList = courseService.getAllByDateStart(dateStart);
-            req.setAttribute("message","elective.courses.filter.start.date");
+            req.setAttribute("message", "elective.courses.filter.start.date");
             req.setAttribute("value", dateStart);
         } else if (value != null && !value.trim().isEmpty())
             switch (key) {
                 case "status":
                     courseDtoList = courseService.getAllByStatus(value);
-                    req.setAttribute("message","elective.courses.filter.status");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.status");
+                    req.setAttribute("value", value);
                     break;
                 case "alphabet":
                     courseDtoList = courseService.getAllByAlphabet(value);
-                    req.setAttribute("message","elective.courses.filter.name");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.name");
+                    req.setAttribute("value", value);
                     break;
                 case "duration":
                     courseDtoList = courseService.getAllByDuration(value);
-                    req.setAttribute("message","elective.courses.filter.duration");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.duration");
+                    req.setAttribute("value", value);
                     break;
                 case "students":
                     if (value.equals("MIN-MAX"))
                         courseDtoList = courseService.getAll().stream().sorted(Comparator.comparingInt(CourseDto::getNumberStudents)).collect(Collectors.toList());
                     else
                         courseDtoList = courseService.getAll().stream().sorted((o1, o2) -> o2.getNumberStudents() - o1.getNumberStudents()).collect(Collectors.toList());
-                    req.setAttribute("message","elective.courses.filter.students");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.students");
+                    req.setAttribute("value", value);
                     break;
                 case "teacher_login":
                     courseDtoList = courseService.getAllByUserId(Integer.parseInt(value));
-                    req.setAttribute("message","elective.courses.filter.teacher.login");
+                    req.setAttribute("message", "elective.courses.filter.teacher.login");
                     req.setAttribute("value", userService.getUserById(Integer.parseInt(value)).getLogin());
                     break;
                 case "name":
                     courseDtoList = courseService.getAllByName(value);
-                    req.setAttribute("message","elective.courses.filter.name");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.name");
+                    req.setAttribute("value", value);
                     break;
                 case "login":
                     UserDto userDto = userService.getUserByLogin(value);
                     courseDtoList = courseService.getAllByUserId(userDto.getId());
-                    req.setAttribute("message","elective.courses.filter.login");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.login");
+                    req.setAttribute("value", value);
                     break;
                 case "topic":
                     courseDtoList = courseService.getAllByTopic(value);
-                    req.setAttribute("message","elective.courses.filter.topic");
-                    req.setAttribute("value",value);
+                    req.setAttribute("message", "elective.courses.filter.topic");
+                    req.setAttribute("value", value);
                     break;
             }
 

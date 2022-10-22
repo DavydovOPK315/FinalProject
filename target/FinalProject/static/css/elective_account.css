@@ -53,6 +53,7 @@
 .main__greeting {
     display: flex;
     justify-content: space-around;
+    padding-top: 15px;
 }
 
 .infor__account {
@@ -139,6 +140,12 @@ hr {
 .courses_status_label {
     margin-left: 34px;
     color: white;
+    font-size: 20px;
+}
+
+.courses_no_found {
+    margin-left: 34px;
+    color: #be9a9a;
     font-size: 20px;
 }
 

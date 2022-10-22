@@ -6,7 +6,7 @@ import ua.com.epam.project.dao.Impl.TopicDaoImpl;
 import ua.com.epam.project.dao.Impl.UserDaoImpl;
 
 /**
- * DAO factory.
+ * DAO factory
  *
  * @author Denis Davydov
  * @version 2.0

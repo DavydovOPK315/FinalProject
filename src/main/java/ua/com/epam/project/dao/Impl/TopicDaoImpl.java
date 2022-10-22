@@ -10,6 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Topic DAO implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class TopicDaoImpl implements TopicDao {
     private static final String SELECT_TOPICS = "SELECT * FROM topics ORDER BY id;";
     private static final String SELECT_TOPIC_BY_ID = "SELECT * FROM topics r WHERE r.id = ?;";

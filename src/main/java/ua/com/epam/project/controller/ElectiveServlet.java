@@ -16,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Servlet to prepare main page
@@ -33,6 +35,7 @@ public class ElectiveServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setIntHeader("Refresh", 3610);
         HttpSession session = req.getSession();
         String message = (String) session.getAttribute("message");
         req.setAttribute("message", message);
@@ -40,7 +43,9 @@ public class ElectiveServlet extends HttpServlet {
         if (message != null)
             session.removeAttribute("message");
 
-        List<CourseDto> courseList = courseService.getAll();
+        List<CourseDto> courseList = courseService.getAll().stream()
+                .sorted(Comparator.comparing(CourseDto::getStatus).reversed())
+                .collect(Collectors.toList());
         List<UserDto> teachers = userService.getAllByRole("TEACHER");
         List<Topic> topics = topicService.getAll();
 

@@ -9,6 +9,12 @@ import ua.com.epam.project.service.UserService;
 
 import java.util.List;
 
+/**
+ * User service implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class UserServiceImpl implements UserService {
     private UserDao userDao = DAOFactory.getUserDao();
     private static UserService instance;

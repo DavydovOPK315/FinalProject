@@ -8,6 +8,7 @@ import java.util.Objects;
  *
  * @author Denis Davydov
  * @version 2.0
+ * @see BaseEntity
  */
 public class Course extends BaseEntity {
     private String name;

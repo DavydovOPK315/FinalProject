@@ -10,6 +10,12 @@ import ua.com.epam.project.service.CourseService;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * Course service implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class CourseServiceImpl implements CourseService {
     private static CourseService instance;
     private CourseDao courseDao = DAOFactory.getCourseDao();

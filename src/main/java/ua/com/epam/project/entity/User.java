@@ -7,6 +7,7 @@ import java.util.Objects;
  *
  * @author Denis Davydov
  * @version 2.0
+ * @see BaseEntity
  */
 public class User extends BaseEntity {
     private String login;
@@ -17,7 +18,8 @@ public class User extends BaseEntity {
     private String reset_password_token;
     private int roleId;
 
-    public User() {}
+    public User() {
+    }
 
     public String getLogin() {
         return login;

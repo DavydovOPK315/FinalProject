@@ -15,8 +15,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Course DAO implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class CourseDaoImpl implements CourseDao {
-    private static final String INSERT_INTO_COURSES_NAME_STATUS = "INSERT INTO courses (name, date_start, date_end, description) values (?, ?, ?, ?);";
+    private static final String INSERT_INTO_COURSES = "INSERT INTO courses (name, date_start, date_end, description) values (?, ?, ?, ?);";
     private static final String SELECT_COURSES_WITH_TEACHER = "SELECT c.*, u.id, u.login FROM courses c JOIN users_has_courses us ON c.id = us.courses_id JOIN users u ON u.id = us.users_id AND u.status = 'ACTIVE' AND u.role_id = (SELECT id FROM roles WHERE name = 'TEACHER') ORDER BY c.id;";
     private static final String SELECT_COURSES_WITH_TEACHER_BY_ALPHABET = "SELECT c.*, u.id, u.login FROM courses c JOIN users_has_courses us ON c.id = us.courses_id JOIN users u ON u.id = us.users_id AND u.status = 'ACTIVE' AND u.role_id = (SELECT id FROM roles WHERE name = 'TEACHER') ORDER BY c.name;";
     private static final String SELECT_COURSES_WITH_TEACHER_BY_ALPHABET_DESC = "SELECT c.*, u.id, u.login FROM courses c JOIN users_has_courses us ON c.id = us.courses_id JOIN users u ON u.id = us.users_id AND u.status = 'ACTIVE' AND u.role_id = (SELECT id FROM roles WHERE name = 'TEACHER') ORDER BY c.name DESC;";
@@ -64,7 +70,7 @@ public class CourseDaoImpl implements CourseDao {
         Connection con = connectionPool.getConnection();
         int courseId;
 
-        try (PreparedStatement ps = con.prepareStatement(INSERT_INTO_COURSES_NAME_STATUS, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement ps = con.prepareStatement(INSERT_INTO_COURSES, Statement.RETURN_GENERATED_KEYS)) {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
             int k = 1;
@@ -205,6 +211,7 @@ public class CourseDaoImpl implements CourseDao {
     @Override
     public boolean addTopics(CourseDto courseDto) {
         Connection con = connectionPool.getConnection();
+
         try (PreparedStatement ps = con.prepareStatement(INSERT_INTO_PERFORMANCE)) {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -283,8 +290,8 @@ public class CourseDaoImpl implements CourseDao {
         int userIdOld = userService.getUserByLogin(getCourseById(course.getId()).getTeacherLogin()).getId();
         int userIdNew = userService.getUserByLogin(course.getTeacherLogin()).getId();
         int courseId = course.getId();
-
         Connection con = connectionPool.getConnection();
+
         try (PreparedStatement ps = con.prepareStatement(UPDATE_COURSE_BY_ID)) {
             con.setAutoCommit(false);
             con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
@@ -450,7 +457,7 @@ public class CourseDaoImpl implements CourseDao {
                 while (rs.next()) {
                     course = getCourseDto(rs);
 
-                    try (PreparedStatement ps2 = con.prepareStatement("SELECT ROUND(AVG(grade),0) FROM performance WHERE users_id = ? AND courses_id = ?;")) {
+                    try (PreparedStatement ps2 = con.prepareStatement("SELECT ROUND(AVG(grade),1) FROM performance WHERE users_id = ? AND courses_id = ?;")) {
                         ps2.setInt(1, userId);
                         ps2.setInt(2, course.getId());
 

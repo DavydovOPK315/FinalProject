@@ -8,6 +8,12 @@ import ua.com.epam.project.service.RoleService;
 
 import java.util.List;
 
+/**
+ * Role service implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class RoleServiceImpl implements RoleService {
     private RoleDao roleDao = DAOFactory.getRoleDao();
     private static RoleService instance;

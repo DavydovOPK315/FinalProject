@@ -12,12 +12,15 @@ header {
     z-index: 1000;
     width: 100%;
     background: rgba(0, 0, 0, 0.4);
-    padding-bottom: 20px;
+    height: 110px;
 }
 
 .header__logo {
-    margin-right: 100px;
-    height: 40px;
+    margin-top: -5px;
+    margin-left: 180px;
+    margin-right: 150px;
+    height: 70px;
+    width: 70px;
 }
 
 .nav-link {
@@ -76,10 +79,6 @@ footer {
 .icon-close,
 .icon-menu {
     display: none;
-}
-
-.menu {
-    display: initial;
 }
 
 .icon-close img {

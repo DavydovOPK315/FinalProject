@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -51,20 +51,20 @@
         </form>
         <hr/>
         <p class="title_courses"><fmt:message key="elective.account.enroll"/></p>
+        <p class="courses_status_label"><fmt:message key="elective.account.sort.status"/>
+            <a class="courses_status"
+               href="${app}/elective/account/courses/filter?key=status&value=NOT_STARTED"> NOT_STARTED </a>
+            <a class="courses_status" href="${app}/elective/account/courses/filter?key=status&value=CURRENT"> |
+                CURRENT</a>
+            <a class="courses_status" href="${app}/elective/account/courses/filter?key=status&value=FINISHED"> |
+                FINISHED</a>
+            <a class="courses_status" href="${app}/elective/account"> | ALL</a>
+        </p>
         <c:choose>
             <c:when test="${empty requestScope.courseList}">
-                <h2 class="courses_status_label"><fmt:message key="elective.account.not.enroll"/></h2>
+                <h2 class="courses_no_found"><fmt:message key="elective.account.not.enroll"/></h2>
             </c:when>
             <c:otherwise>
-                <p class="courses_status_label"><fmt:message key="elective.account.sort.status"/>
-                    <a class="courses_status"
-                       href="${app}/elective/account/courses/filter?key=status&value=NOT_STARTED"> NOT_STARTED </a>
-                    <a class="courses_status" href="${app}/elective/account/courses/filter?key=status&value=CURRENT"> |
-                        CURRENT</a>
-                    <a class="courses_status" href="${app}/elective/account/courses/filter?key=status&value=FINISHED"> |
-                        FINISHED</a>
-                    <a class="courses_status" href="${app}/elective/account"> | ALL</a>
-                </p>
                 <table class="tg">
                     <tr>
                         <th width="120"><fmt:message key="elective.account.name"/></th>

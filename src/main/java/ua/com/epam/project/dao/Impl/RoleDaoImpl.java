@@ -10,6 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Role DAO implementation
+ *
+ * @author Denis Davydov
+ * @version 2.0
+ */
 public class RoleDaoImpl implements RoleDao {
     private static final String SELECT_ROLES = "SELECT * FROM roles ORDER BY id;";
     private static final String SELECT_ROLE_BY_ID = "SELECT * FROM roles r WHERE r.id = ?;";

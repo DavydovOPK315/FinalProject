@@ -27,6 +27,7 @@ public class ElectiveAccountCoursesFilterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setIntHeader("Refresh", 3610);
         HttpSession session = req.getSession();
         String message = (String) session.getAttribute("message");
         req.setAttribute("message", message);
