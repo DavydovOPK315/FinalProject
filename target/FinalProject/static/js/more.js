@@ -4,7 +4,7 @@ $('#btnMore').on('click', function () {
     let items = $('.all_items:hidden');
 
     items.slice(0, 3).slideDown();
-    if (items.length < 4) {
+    if (items.length === 0) {
         $('#btnMore').fadeOut();
     }
 });
