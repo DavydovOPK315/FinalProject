@@ -9,15 +9,17 @@ import ua.com.epam.project.dto.UserDto;
 import ua.com.epam.project.entity.User;
 import ua.com.epam.project.service.UserService;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.*;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class AuthenticationFilterTest {
@@ -113,7 +115,7 @@ class AuthenticationFilterTest {
     }
 
     @Test
-    void doFilterIfStudentOrTeacherIsBanned() throws ServletException, IOException {
+    void doFilterIfStudentOrTeacherIsBanned() throws Exception {
         User user = new User();
         user.setId(10);
         user.setRoleId(2);
@@ -126,13 +128,15 @@ class AuthenticationFilterTest {
         when(userService.getUserById(user.getId())).thenReturn(userDto);
         when(request.getRequestDispatcher("/login.jsp")).thenReturn(requestDispatcher);
 
+        setFinalStatic(AuthenticationFilter.class.getDeclaredField("userService"), userService);
+
         assertDoesNotThrow(() -> authenticationFilter.doFilter(request, response, filterChain));
         verify(requestDispatcher, times(1)).forward(request, response);
         verify(requestDispatcher, times(1)).forward(request, response);
     }
 
     @Test
-    void doFilterIfStudentOrTeacherIsActive() throws ServletException, IOException {
+    void doFilterIfStudentOrTeacherIsActive() throws Exception {
         User user = new User();
         user.setId(10);
         user.setLogin("user");
@@ -152,13 +156,15 @@ class AuthenticationFilterTest {
         when(request.getServletPath()).thenReturn("/elective");
         when(userService.getUserById(user.getId())).thenReturn(userDto);
 
+        setFinalStatic(AuthenticationFilter.class.getDeclaredField("userService"), userService);
+
         assertDoesNotThrow(() -> authenticationFilter.doFilter(request, response, filterChain));
         verify(filterChain, times(1)).doFilter(request, response);
         verify(requestDispatcher, never()).forward(request, response);
     }
 
     @Test
-    void doFilterIfStudentOrTeacherIsActiveButDifferent() throws ServletException, IOException {
+    void doFilterIfStudentOrTeacherIsActiveButDifferent() throws Exception {
         User user = new User();
         user.setId(10);
         user.setLogin("user");
@@ -176,6 +182,8 @@ class AuthenticationFilterTest {
         when(request.getServletPath()).thenReturn("/elective");
         when(userService.getUserById(user.getId())).thenReturn(userDto);
         when(userService.getUserByEmail(anyString())).thenReturn(user);
+
+        setFinalStatic(AuthenticationFilter.class.getDeclaredField("userService"), userService);
 
         assertDoesNotThrow(() -> authenticationFilter.doFilter(request, response, filterChain));
         verify(filterChain, times(1)).doFilter(request, response);

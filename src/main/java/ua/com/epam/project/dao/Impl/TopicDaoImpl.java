@@ -24,7 +24,7 @@ public class TopicDaoImpl implements TopicDao {
     private static final String INSERT_INTO_TOPICS_NAME_STATUS = "INSERT INTO topics (name, status) values (?, ?);";
     private static final String DELETE_FROM_TOPICS_BY_ID = "DELETE FROM topics WHERE id = ?;";
     private static final String SELECT_TOPICS_BY_COURSE_ID = "SELECT t.*, ct.created FROM topics t, courses_has_topics ct WHERE ct.courses_id = ? AND ct.topics_id = t.id ORDER BY ct.created;";
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static TopicDao instance;
     private static final Logger LOG = Logger.getLogger(TopicDaoImpl.class);
 

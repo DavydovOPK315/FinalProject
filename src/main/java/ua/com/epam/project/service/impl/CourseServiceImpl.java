@@ -18,11 +18,10 @@ import java.util.List;
  */
 public class CourseServiceImpl implements CourseService {
     private static CourseService instance;
-    private CourseDao courseDao = DAOFactory.getCourseDao();
+    private static final CourseDao courseDao = DAOFactory.getCourseDao();
     private static final Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
-    private CourseServiceImpl() {
-    }
+    private CourseServiceImpl() {}
 
     public static CourseService getInstance() {
         if (instance == null)

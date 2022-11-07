@@ -52,9 +52,9 @@ public class CourseDaoImpl implements CourseDao {
     private static final String CALL_STORED_PROCEDURE_CHECKING_STATUS = "{call checking_status()}";
     private static final String SELECT_COURSES_WITH_TEACHER_BY_TOPIC = "SELECT t2.* FROM (SELECT t.* FROM (SELECT c.*, u.id as userId, u.login FROM courses c JOIN users_has_courses us ON c.id = us.courses_id JOIN users u ON u.id = us.users_id AND u.role_id = (SELECT id FROM roles WHERE name = 'TEACHER')) t, users_has_courses us WHERE t.id = us.courses_id GROUP BY t.id) t2, courses_has_topics ct WHERE t2.id = ct.courses_id AND ct.topics_id = ?;";
     private static CourseDaoImpl instance;
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
-    private UserService userService = ServiceFactory.getUserService();
-    private TopicService topicService = ServiceFactory.getTopicService();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final UserService userService = ServiceFactory.getUserService();
+    private static final TopicService topicService = ServiceFactory.getTopicService();
     private static final Logger LOG = Logger.getLogger(CourseDaoImpl.class);
 
     private CourseDaoImpl() {
@@ -111,12 +111,6 @@ public class CourseDaoImpl implements CourseDao {
             connectionPool.close(con);
         }
         return true;
-    }
-
-    private void callStoredProcedureCheckingStatus(Connection con) throws SQLException {
-        try (Statement st = con.createStatement()) {
-            st.executeQuery(CALL_STORED_PROCEDURE_CHECKING_STATUS);
-        }
     }
 
     @Override
@@ -378,22 +372,6 @@ public class CourseDaoImpl implements CourseDao {
         return result;
     }
 
-    private boolean deleteCommon(int courseId, int topicId, Connection con, PreparedStatement ps, String deleteFromCoursesHasTopicsTopic) throws SQLException {
-        con.setAutoCommit(false);
-        con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-        ps.setInt(1, courseId);
-        ps.setInt(2, topicId);
-        ps.executeUpdate();
-
-        try (PreparedStatement ps2 = con.prepareStatement(deleteFromCoursesHasTopicsTopic)) {
-            ps2.setInt(1, courseId);
-            ps2.setInt(2, topicId);
-            ps2.executeUpdate();
-        }
-        con.commit();
-        return true;
-    }
-
     @Override
     public boolean leaveCourse(int courseId, int userId) {
         Connection con = connectionPool.getConnection();
@@ -588,6 +566,47 @@ public class CourseDaoImpl implements CourseDao {
         }
     }
 
+    @Override
+    public List<CourseDto> getAllByDuration(String value) {
+        List<CourseDto> result = new ArrayList<>();
+        String query;
+
+        if (value.equals("MIN-MAX"))
+            query = SELECT_COURSES_WITH_TEACHER_DURATION;
+        else
+            query = SELECT_COURSES_WITH_TEACHER_DURATION_DESC;
+
+        try (Connection con = connectionPool.getConnection();
+             Statement statement = con.createStatement()) {
+            return getListOfCourseDto(result, query, con, statement);
+        } catch (SQLException e) {
+            LOG.error("getAllByDuration: sql exception");
+            return result;
+        }
+    }
+
+    private void callStoredProcedureCheckingStatus(Connection con) throws SQLException {
+        try (Statement st = con.createStatement()) {
+            st.executeQuery(CALL_STORED_PROCEDURE_CHECKING_STATUS);
+        }
+    }
+
+    private boolean deleteCommon(int courseId, int topicId, Connection con, PreparedStatement ps, String deleteFromCoursesHasTopicsTopic) throws SQLException {
+        con.setAutoCommit(false);
+        con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+        ps.setInt(1, courseId);
+        ps.setInt(2, topicId);
+        ps.executeUpdate();
+
+        try (PreparedStatement ps2 = con.prepareStatement(deleteFromCoursesHasTopicsTopic)) {
+            ps2.setInt(1, courseId);
+            ps2.setInt(2, topicId);
+            ps2.executeUpdate();
+        }
+        con.commit();
+        return true;
+    }
+
     private List<CourseDto> getListOfCourseDto(List<CourseDto> result, String query, Connection con, Statement statement) throws SQLException {
         callStoredProcedureCheckingStatus(con);
 
@@ -622,24 +641,5 @@ public class CourseDaoImpl implements CourseDao {
         List<UserDto> usersOnCourse = getAllStudentsWithGradesByCourseId(course.getId());
         course.setNumberStudents(usersOnCourse.size());
         return course;
-    }
-
-    @Override
-    public List<CourseDto> getAllByDuration(String value) {
-        List<CourseDto> result = new ArrayList<>();
-        String query;
-
-        if (value.equals("MIN-MAX"))
-            query = SELECT_COURSES_WITH_TEACHER_DURATION;
-        else
-            query = SELECT_COURSES_WITH_TEACHER_DURATION_DESC;
-
-        try (Connection con = connectionPool.getConnection();
-             Statement statement = con.createStatement()) {
-            return getListOfCourseDto(result, query, con, statement);
-        } catch (SQLException e) {
-            LOG.error("getAllByDuration: sql exception");
-            return result;
-        }
     }
 }

@@ -1,5 +1,6 @@
 package ua.com.epam.project.service.impl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class CourseServiceImplTest {
@@ -38,6 +40,11 @@ class CourseServiceImplTest {
 
         courseDtoList = new ArrayList<>();
         courseDtoList.add(courseDto);
+    }
+
+    @BeforeEach
+    void setUp() throws Exception {
+        setFinalStatic(CourseServiceImpl.class.getDeclaredField("courseDao"), courseDao);
     }
 
     @Test

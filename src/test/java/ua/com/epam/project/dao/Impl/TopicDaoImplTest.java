@@ -1,5 +1,6 @@
 package ua.com.epam.project.dao.Impl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +18,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class TopicDaoImplTest {
@@ -45,6 +47,11 @@ class TopicDaoImplTest {
         topicB.setName("topicB");
         topicB.setCreated(new Date(2000));
         topicB.setStatus(Status.BANNED);
+    }
+
+    @BeforeEach
+    void setUp() throws Exception {
+        setFinalStatic(TopicDaoImpl.class.getDeclaredField("connectionPool"), connectionPool);
     }
 
     @Test

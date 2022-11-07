@@ -47,7 +47,14 @@ public class ResetPasswordServlet extends HttpServlet {
             req.setAttribute("message", "login.invalid.token");
             getServletContext().getRequestDispatcher("/reset_password_form.jsp").forward(req, resp);
         } else {
-            String password = req.getParameter("password");
+            String password = req.getParameter("password").trim();
+
+            if (password.length() < 4){
+                req.setAttribute("message", "registration.invalid.data");
+                getServletContext().getRequestDispatcher("/reset_password_form.jsp").forward(req, resp);
+                return;
+            }
+
             User result = userService.getUserByToken(token);
 
             if (result == null)

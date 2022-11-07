@@ -1,5 +1,6 @@
 package ua.com.epam.project.dao.Impl;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class UserDaoImplTest {
@@ -47,6 +49,11 @@ class UserDaoImplTest {
         user.setStatus(Status.ACTIVE);
         user.setReset_password_token(null);
         user.setRoleId(2);
+    }
+
+    @BeforeEach
+    void setUp() throws Exception {
+        setFinalStatic(UserDaoImpl.class.getDeclaredField("connectionPool"), connectionPool);
     }
 
     @Test

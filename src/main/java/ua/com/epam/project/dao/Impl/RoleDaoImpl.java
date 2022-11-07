@@ -23,7 +23,7 @@ public class RoleDaoImpl implements RoleDao {
     private static final String INSERT_INTO_ROLES_NAME_STATUS = "INSERT INTO roles (name, status) values (?, ?)";
     private static final String DELETE_FROM_ROLES_BY_ID = "DELETE FROM roles WHERE id = ?";
     private static RoleDao instance;
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final Logger LOG = Logger.getLogger(RoleDaoImpl.class);
 
     private RoleDaoImpl() {

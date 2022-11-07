@@ -16,7 +16,7 @@ import java.util.List;
  * @version 2.0
  */
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = DAOFactory.getUserDao();
+    private static final UserDao userDao = DAOFactory.getUserDao();
     private static UserService instance;
     private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 

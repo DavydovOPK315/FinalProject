@@ -20,6 +20,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class RegistrationServletTest {
@@ -72,10 +73,12 @@ class RegistrationServletTest {
     }
 
     @Test
-    void doPostValidDataSuccess() throws IOException {
+    void doPostValidDataSuccess() throws Exception {
         when(req.getSession()).thenReturn(session);
         when(req.getParameter(anyString())).thenReturn("value");
         doReturn(true).when(userService).registerUser(any(User.class));
+
+        setFinalStatic(RegistrationServlet.class.getDeclaredField("userService"), userService);
 
         assertDoesNotThrow(() -> registrationServlet.doPost(req, resp));
         verify(req, times(1)).getSession();
@@ -85,10 +88,12 @@ class RegistrationServletTest {
     }
 
     @Test
-    void doPostValidDataFail() throws IOException {
+    void doPostValidDataFail() throws Exception {
         when(req.getSession()).thenReturn(session);
         when(req.getParameter(anyString())).thenReturn("value");
         doReturn(false).when(userService).registerUser(any(User.class));
+
+        setFinalStatic(RegistrationServlet.class.getDeclaredField("userService"), userService);
 
         assertDoesNotThrow(() -> registrationServlet.doPost(req, resp));
         verify(req, times(1)).getSession();

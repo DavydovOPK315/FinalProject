@@ -20,7 +20,7 @@ import java.io.IOException;
  */
 @WebServlet(value = "/registration")
 public class RegistrationServlet extends HttpServlet {
-    private UserService userService = UserServiceImpl.getInstance();
+    private static final UserService userService = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

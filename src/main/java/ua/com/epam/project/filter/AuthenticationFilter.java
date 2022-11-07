@@ -20,11 +20,11 @@ import java.util.List;
  * @version 2.0
  */
 public class AuthenticationFilter implements Filter {
-    private UserService userService = ServiceFactory.getUserService();
-    private final List<String> guestEndpoints;
-    private final List<String> adminEndpoints;
+    private static final UserService userService = ServiceFactory.getUserService();
+    private static final List<String> guestEndpoints;
+    private static final List<String> adminEndpoints;
 
-    {
+    static {
         guestEndpoints = new ArrayList<>();
         guestEndpoints.add("/login");
         guestEndpoints.add("/login.jsp");

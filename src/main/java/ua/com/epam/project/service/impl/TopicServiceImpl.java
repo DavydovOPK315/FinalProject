@@ -15,7 +15,7 @@ import java.util.List;
  * @version 2.0
  */
 public class TopicServiceImpl implements TopicService {
-    private TopicDao topicDao = DAOFactory.getTopicDao();
+    private static final TopicDao topicDao = DAOFactory.getTopicDao();
     private static TopicService instance;
     private static final Logger LOG = Logger.getLogger(TopicServiceImpl.class);
 

@@ -15,7 +15,7 @@ import java.util.List;
  * @version 2.0
  */
 public class RoleServiceImpl implements RoleService {
-    private RoleDao roleDao = DAOFactory.getRoleDao();
+    private static final RoleDao roleDao = DAOFactory.getRoleDao();
     private static RoleService instance;
     private static final Logger LOG = Logger.getLogger(RoleServiceImpl.class);
 

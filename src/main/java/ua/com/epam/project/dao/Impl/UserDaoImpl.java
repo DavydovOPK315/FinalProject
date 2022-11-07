@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
     private static final String UPDATE_USER_BY_ID_EXCEPT_PASSWORD = "UPDATE users u SET u.login = ?, u.first_name = ?, u.last_name = ?, u.email = ?, u.status = ?, u.role_id = ? WHERE u.id = ?;";
     private static final String UPDATE_USER_BY_ID = "UPDATE users u SET u.login = ?, u.first_name = ?, u.last_name = ?, u.email = ?, u.password = ? WHERE u.id = ?;";
     private static UserDao instance;
-    private ConnectionPool connectionPool = ConnectionPool.getInstance();
+    private static final ConnectionPool connectionPool = ConnectionPool.getInstance();
     private static final Logger LOG = Logger.getLogger(UserDaoImpl.class);
 
     private UserDaoImpl() {

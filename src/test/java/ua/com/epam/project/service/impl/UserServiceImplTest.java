@@ -1,6 +1,7 @@
 package ua.com.epam.project.service.impl;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
@@ -40,6 +42,11 @@ class UserServiceImplTest {
 
         userDtoList = new ArrayList<>();
         userDtoList.add(userDto);
+    }
+
+    @BeforeEach
+    void setUp() throws Exception {
+        setFinalStatic(UserServiceImpl.class.getDeclaredField("userDao"), userDao);
     }
 
     @Test

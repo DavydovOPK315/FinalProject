@@ -29,9 +29,9 @@ import java.util.stream.Collectors;
  */
 @WebServlet("/elective/courses")
 public class ElectiveServlet extends HttpServlet {
-    private final CourseService courseService = ServiceFactory.getCourseService();
-    private final UserService userService = ServiceFactory.getUserService();
-    private final TopicService topicService = ServiceFactory.getTopicService();
+    private static final CourseService courseService = ServiceFactory.getCourseService();
+    private static final UserService userService = ServiceFactory.getUserService();
+    private static final TopicService topicService = ServiceFactory.getTopicService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

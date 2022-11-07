@@ -1,6 +1,7 @@
 package ua.com.epam.project.service.impl;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static util.SetFinalStatic.setFinalStatic;
 
 @ExtendWith(MockitoExtension.class)
 class TopicServiceImplTest {
@@ -32,6 +34,11 @@ class TopicServiceImplTest {
         topic.setId(10);
         topic.setName("BBC");
         topic.setStatus(Status.ACTIVE);
+    }
+
+    @BeforeEach
+    void setUp() throws Exception {
+        setFinalStatic(TopicServiceImpl.class.getDeclaredField("topicDao"), topicDao);
     }
 
     @Test
