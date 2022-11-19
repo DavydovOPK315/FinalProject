@@ -49,7 +49,24 @@ public class ElectiveServlet extends HttpServlet {
         List<UserDto> teachers = userService.getAllByRole("TEACHER");
         List<Topic> topics = topicService.getAll();
 
-        req.setAttribute("courseList", courseList);
+        int page = 1;
+
+        if (req.getParameter("page") != null)
+            page = Integer.parseInt(req.getParameter("page"));
+
+        int recordsPerPage = 6;
+        int noOfRecords = courseList.size();
+        int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+        int fromIndex = (page - 1) * recordsPerPage;
+        int endIndex = Math.min(fromIndex + recordsPerPage, noOfRecords);
+        List<CourseDto> resultList = courseList.subList(fromIndex, endIndex);
+        String servletPath = req.getRequestURI().substring(req.getContextPath().length());
+
+        req.setAttribute("servletPath", servletPath);
+        req.setAttribute("noOfPages", noOfPages);
+        req.setAttribute("currentPage", page);
+        req.setAttribute("listSize", courseList.size());
+        req.setAttribute("courseList", resultList);
         req.setAttribute("teachers", teachers);
         req.setAttribute("topics", topics);
         req.setAttribute("dateNow", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));

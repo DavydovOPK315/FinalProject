@@ -1,11 +1,12 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Main</title>
     <link rel="stylesheet" href="${app}/static/css/core-style.css">
+    <link rel="stylesheet" href="${app}/static/css/elective_courses.css">
 </head>
 <body>
 <main>
@@ -71,7 +72,7 @@
                             <div class="widget-desc">
                                 <form action="${app}/admin/courses/filter" method="get">
                                     <input type="hidden" name="key" value="date_started">
-                                    <input type="date" name="date_start" value="${requestScope.dateNow}"
+                                    <input type="date" name="value" value="${requestScope.dateNow}"
                                            min="${requestScope.dateNow}"
                                            required class="form-check-input inputMinMax">
                                     <input type="submit" value="<fmt:message key="elective.courses.find.courses"/>"
@@ -93,8 +94,11 @@
                     <form action="${app}/admin/courses/filter" method="get" class="form-product">
                         <input type="hidden" name="key" value="name">
                         <label for="productName">
-                            <input type="text" minlength="2" name="value" id="productName"
-                                   placeholder="<fmt:message key="elective.courses.name"/>" required>
+                            <input type="text" name="value" id="productName"
+                                   placeholder="<fmt:message key="elective.courses.name"/>"
+                                   required
+                                   oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                                   oninput="this.setCustomValidity('')"/>
                         </label>
                         <input type="submit" value="<fmt:message key="elective.courses.find.courses"/>"
                                class="btn-login">
@@ -103,9 +107,9 @@
 
                     <c:if test="${not empty requestScope.message}">
                         <div class="message">
-                            <h3><fmt:message key="elective.courses.message"/> ${requestScope.courseList.size()}
-                                <fmt:message key="elective.courses.filter.courses.by"/> <fmt:message
-                                        key="${requestScope.message}"/> ${requestScope.value}</h3>
+                            <h3><fmt:message key="elective.courses.message"/> ${requestScope.listSize}
+                                <fmt:message key="elective.courses.filter.courses.by"/>
+                                <fmt:message key="${requestScope.message}"/> ${requestScope.messageValue}</h3>
                             <br/>
                         </div>
                     </c:if>
@@ -114,7 +118,7 @@
                     <c:if test="${requestScope.courseList.size() > 0}">
                     <div class="row">
                         <c:forEach items="${requestScope.courseList}" var="course">
-                            <div class="col-12 col-sm-6 col-lg-4 all_items">
+                            <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
                                     <div class="product-img">
                                         <a href="${app}/elective/separate/course?id=${course.getId()}">
@@ -156,17 +160,38 @@
                             </div>
                         </c:forEach>
                     </div>
-                    <div class="button__more">
-                        <button id="btnMore"><fmt:message key="load.more"/></button>
-                    </div>
+                    <table class="tg">
+                        <tr>
+                            <c:if test="${requestScope.currentPage != 1}">
+                                <td>
+                                    <a href="${app}${requestScope.servletPath}?page=${requestScope.currentPage - 1}&key=${requestScope.key}&value=${requestScope.value}"><fmt:message key="previous"/></a></td>
+                            </c:if>
+                            <c:forEach begin="1" end="${requestScope.noOfPages}" var="i">
+                                <c:choose>
+                                    <c:when test="${requestScope.currentPage == i}">
+                                        <td>
+                                            <ins>${i}</ins>
+                                        </td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td>
+                                            <a href="${app}${requestScope.servletPath}?page=${i}&key=${requestScope.key}&value=${requestScope.value}">${i}</a>
+                                        </td>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                            <c:if test="${requestScope.currentPage lt requestScope.noOfPages}">
+                                <td>
+                                    <a href="${app}${requestScope.servletPath}?page=${requestScope.currentPage + 1}&key=${requestScope.key}&value=${requestScope.value}"><fmt:message key="next"/></a></td>
+                            </c:if>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </section>
     </div>
     </c:if>
 </main>
-<script src="${app}/static/js/jquery/jquery-2.2.4.min.js"></script>
-<script src="${app}/static/js/more.js"></script>
 </body>
 </html>
 <%@ include file="/WEB-INF/jspf/footer.jspf" %>

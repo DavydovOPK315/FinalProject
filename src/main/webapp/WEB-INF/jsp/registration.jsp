@@ -28,13 +28,15 @@
                     <label for="login"><fmt:message key="registration.login"/></label>
                     <input type="text" id="login" name="login" autofocus minlength="4" maxlength="30" required
                            class="form-styling form-styling-username"
-                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                           oninput="this.setCustomValidity('')"/>
                 </div>
                 <div class="email">
                     <label for="email"><fmt:message key="registration.email"/></label>
                     <input type="email" id="email" name="email" required
                            class="form-styling form-styling-email"
-                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                           oninput="this.setCustomValidity('')"/>
                 </div>
             </div>
             <div class="part2">
@@ -42,13 +44,15 @@
                     <label for="first_name"><fmt:message key="registration.firstname"/></label>
                     <input type="text" id="first_name" name="first_name" minlength="4" maxlength="30" required
                            class="form-styling form-styling-part2"
-                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                           oninput="this.setCustomValidity('')"/>
                 </div>
                 <div class="last_name">
                     <label for="last_name"><fmt:message key="registration.lastname"/></label>
                     <input type="text" id="last_name" name="last_name" minlength="4" maxlength="30" required
                            class="form-styling form-styling-part2"
-                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                           oninput="this.setCustomValidity('')"/>
                 </div>
             </div>
             <div class="password">
@@ -56,7 +60,8 @@
                     <label for="password"><fmt:message key="registration.password"/></label>
                     <input type="password" id="password" name="password" minlength="4" maxlength="30" required
                            class="form-styling form-styling-password"
-                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                           oninput="this.setCustomValidity('')"/>
                 </div>
             </div>
             <div class="butn-animate">

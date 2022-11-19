@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <%@ include file="/WEB-INF/jspf/header.jspf" %>
-<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +24,13 @@
             </c:if>
             <form class="form-login" action="${app}/login" method="POST">
                 <label for="login"><fmt:message key="login"/> </label>
-                <input type="text" id="login" name="login" autofocus minlength="4" maxlength="30" required
-                       class="form-styling" oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"/>
+                <input type="text" id="login" name="login" autofocus pattern=".{4,30}" required
+                       class="form-styling" oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                       oninput="this.setCustomValidity('')"/>
                 <label for="password"><fmt:message key="password"/> </label>
-                <input type="password" id="password" name="password" minlength="4" maxlength="30" required
-                       class="form-styling" oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')">
+                <input type="password" id="password" name="password" pattern=".{4,30}" required
+                       class="form-styling" oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                       oninput="this.setCustomValidity('')"/>
 
                 <div class="g-recaptcha" data-sitekey="6Ld50h0iAAAAACdkS2bqKN9zYFnBQwppW4uGxc6y"></div>
                 <br/>

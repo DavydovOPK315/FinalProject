@@ -1,0 +1,23 @@
+tbody {
+    text-align: center;
+}
+
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border-color: #ccc;
+    display: flex;
+    justify-content: center;
+}
+
+.tg td {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 5px;
+    overflow: hidden;
+    word-break: normal;
+    color: white;
+    text-align: center;
+    border: 5px solid #2c3e42;
+    background: #5f746f;
+}

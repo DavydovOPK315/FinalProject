@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`courses` (
     UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
     INDEX `index_courses_name` (`name`(4) ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 23
+    AUTO_INCREMENT = 33
     DEFAULT CHARACTER SET = utf8
     COLLATE = utf8_unicode_ci;
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`topics` (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 22
+    AUTO_INCREMENT = 61
     DEFAULT CHARACTER SET = utf8
     COLLATE = utf8_unicode_ci;
 
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`roles` (
     PRIMARY KEY (`id`),
     UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 16
+    AUTO_INCREMENT = 17
     DEFAULT CHARACTER SET = utf8
     COLLATE = utf8_unicode_ci;
 
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`users` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 17
+    AUTO_INCREMENT = 23
     DEFAULT CHARACTER SET = utf8
     COLLATE = utf8_unicode_ci;
 
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `final_project`.`performance` (
     ON DELETE RESTRICT
     ON UPDATE CASCADE)
     ENGINE = InnoDB
-    AUTO_INCREMENT = 176
+    AUTO_INCREMENT = 304
     DEFAULT CHARACTER SET = utf8;
 
 
@@ -240,23 +240,6 @@ END$$
 USE `final_project`$$
 CREATE
 DEFINER=`root`@`localhost`
-TRIGGER `final_project`.`users_BEFORE_UPDATE`
-BEFORE UPDATE ON `final_project`.`users`
-           FOR EACH ROW
-BEGIN
-DECLARE count_courses_var int;
-DECLARE msg TEXT DEFAULT ' ';
-
-select count(courses_id) from users_has_courses where users_id = old.id into count_courses_var;
-if count_courses_var > 0 AND old.role_id != new.role_id then
-					SET msg = concat('Cannot be done in a users table');
-					SIGNAL SQLSTATE '45000' SET mysql_errno=30001, message_text = msg;
-end if;
-END$$
-
-USE `final_project`$$
-CREATE
-DEFINER=`root`@`localhost`
 TRIGGER `final_project`.`users_BEFORE_DELETE`
 BEFORE DELETE ON `final_project`.`users`
 FOR EACH ROW
@@ -266,6 +249,23 @@ DECLARE msg TEXT DEFAULT ' ';
 
 select count(courses_id) from users_has_courses where users_id = old.id into count_courses_var;
 if count_courses_var > 0 then
+					SET msg = concat('Cannot be done in a users table');
+					SIGNAL SQLSTATE '45000' SET mysql_errno=30001, message_text = msg;
+end if;
+END$$
+
+USE `final_project`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `final_project`.`users_BEFORE_UPDATE`
+BEFORE UPDATE ON `final_project`.`users`
+           FOR EACH ROW
+BEGIN
+DECLARE count_courses_var int;
+DECLARE msg TEXT DEFAULT ' ';
+
+select count(courses_id) from users_has_courses where users_id = old.id into count_courses_var;
+if count_courses_var > 0 AND old.role_id != new.role_id then
 					SET msg = concat('Cannot be done in a users table');
 					SIGNAL SQLSTATE '45000' SET mysql_errno=30001, message_text = msg;
 end if;
@@ -297,7 +297,7 @@ BEGIN
 DECLARE msg TEXT DEFAULT ' ';
 DECLARE course_status varchar(25);
 
-select c.`status` from courses c where c.id = new.id into course_status;
+select c.`status` from courses c where c.id = new.courses_id into course_status;
 
 if course_status != 'NOT_STARTED' then
 	SET msg = concat('Student cannot be enrolled on course!');
@@ -320,11 +320,36 @@ BEFORE UPDATE ON `final_project`.`performance`
            FOR EACH ROW
 BEGIN
 DECLARE msg TEXT DEFAULT ' ';
+DECLARE course_status TEXT DEFAULT ' ';
+
+SELECT `status` FROM courses WHERE courses.id = new.courses_id INTO course_status;
+
 if new.grade <> 0 then
 	if new.grade < 60 or new.grade > 100 then
 		SET msg = concat('Score cannot be less than 60 and bigger than 100');
 		SIGNAL SQLSTATE '45000' SET mysql_errno=30001, message_text = msg;
 end if;
+    if course_status != 'CURRENT' then
+		SET msg = concat('Cannot update scores due to status');
+		SIGNAL SQLSTATE '45000' SET mysql_errno=30001, message_text = msg;
+end if;
+end if;
+END$$
+
+USE `final_project`$$
+CREATE
+DEFINER=`root`@`localhost`
+TRIGGER `final_project`.`users_has_courses_BEFORE_DELETE`
+BEFORE DELETE ON `final_project`.`users_has_courses`
+FOR EACH ROW
+BEGIN
+DECLARE msg TEXT DEFAULT ' ';
+DECLARE course_status TEXT DEFAULT ' ';
+
+SELECT `status` FROM courses WHERE courses.id = old.courses_id INTO course_status;
+if course_status != 'NOT_STARTED' then
+		SET msg = concat('Cannot delete user from course due to course status ');
+		SIGNAL SQLSTATE '45000' SET mysql_errno=30001, message_text = msg;
 end if;
 END$$
 

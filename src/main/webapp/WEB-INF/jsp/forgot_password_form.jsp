@@ -31,7 +31,8 @@
                 <form class="form-login" action="${app}/forgot_password" method="POST">
                     <label id="email"><fmt:message key="forgot.password.enter.mail"/></label>
                     <input type="email" name="email" class="form-styling" placeholder="Enter your e-mail" required autofocus
-                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"/>
+                           oninvalid="this.setCustomValidity('<fmt:message key="input.empty.warn"/>')"
+                           oninput="this.setCustomValidity('')"/>
                     <div class="butn-animate">
                         <input type="submit" value="<fmt:message key="forgot.password.send"/>" class="butn-login"/>
                     </div>

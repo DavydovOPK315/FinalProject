@@ -83,7 +83,7 @@
     <form action="${app}/admin/courses/filter" method="get">
         <input type="hidden" name="key" value="date_started">
         <label> <fmt:message key="admin.courses.find.date.start"/> </label>
-        <input type="date" name="date_start" value="${requestScope.dateNow}" min="${requestScope.dateNow}" required>
+        <input type="date" name="value" value="${requestScope.dateNow}" min="${requestScope.dateNow}" required>
         <input type="submit" value="<fmt:message key="elective.courses.find.courses"/>">
     </form>
     <hr/>
@@ -91,13 +91,13 @@
 
     <c:if test="${not empty requestScope.message}">
         <c:choose>
-            <c:when test="${empty requestScope.value}">
+            <c:when test="${empty requestScope.messageValue}">
                 <h1><fmt:message key="${requestScope.message}"/></h1>
             </c:when>
             <c:otherwise>
-                <h1><fmt:message key="elective.courses.message"/> ${requestScope.courseList.size()}
+                <h1><fmt:message key="elective.courses.message"/> ${requestScope.listSize}
                     <fmt:message key="elective.courses.filter.courses.by"/>
-                    <fmt:message key="${requestScope.message}"/> ${requestScope.value}</h1>
+                    <fmt:message key="${requestScope.message}"/> ${requestScope.messageValue}</h1>
             </c:otherwise>
         </c:choose>
         <hr/>

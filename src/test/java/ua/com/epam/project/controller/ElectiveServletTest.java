@@ -54,8 +54,10 @@ class ElectiveServletTest {
 
     @Test
     void doGet() throws Exception {
-
         when(req.getSession()).thenReturn(session);
+        when(req.getParameter("page")).thenReturn("1");
+        when(req.getRequestURI()).thenReturn("requestURI");
+        when(req.getContextPath()).thenReturn("path");
         when(session.getAttribute("message")).thenReturn("result");
         doReturn(servletContext).when(electiveServlet).getServletContext();
         when(servletContext.getRequestDispatcher(anyString())).thenReturn(requestDispatcher);

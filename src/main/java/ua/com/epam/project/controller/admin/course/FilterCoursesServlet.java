@@ -50,26 +50,26 @@ public class FilterCoursesServlet extends HttpServlet {
         req.setAttribute("topics", topics);
 
         if (key.equals("date_started")) {
-            Date dateStart = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("date_start")).getTime());
+            Date dateStart = new Date(new SimpleDateFormat("yyyy-MM-dd").parse(value).getTime());
             courseDtoList = courseService.getAllByDateStart(dateStart);
             req.setAttribute("message", "elective.courses.filter.start.date");
-            req.setAttribute("value", dateStart);
+            req.setAttribute("messageValue", dateStart);
         } else if (value != null && !value.trim().isEmpty())
             switch (key) {
                 case "status":
                     courseDtoList = courseService.getAllByStatus(value);
                     req.setAttribute("message", "elective.courses.filter.status");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
                 case "alphabet":
                     courseDtoList = courseService.getAllByAlphabet(value);
                     req.setAttribute("message", "elective.courses.filter.name");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
                 case "duration":
                     courseDtoList = courseService.getAllByDuration(value);
                     req.setAttribute("message", "elective.courses.filter.duration");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
                 case "students":
                     if (value.equals("MIN-MAX"))
@@ -77,38 +77,66 @@ public class FilterCoursesServlet extends HttpServlet {
                     else
                         courseDtoList = courseService.getAll().stream().sorted((o1, o2) -> o2.getNumberStudents() - o1.getNumberStudents()).collect(Collectors.toList());
                     req.setAttribute("message", "elective.courses.filter.students");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
                 case "teacher_login":
                     courseDtoList = courseService.getAllByUserId(Integer.parseInt(value));
                     req.setAttribute("message", "elective.courses.filter.teacher.login");
-                    req.setAttribute("value", userService.getUserById(Integer.parseInt(value)).getLogin());
+                    req.setAttribute("messageValue", userService.getUserById(Integer.parseInt(value)).getLogin());
                     break;
                 case "name":
                     courseDtoList = courseService.getAllByName(value);
                     req.setAttribute("message", "elective.courses.filter.name");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
                 case "login":
                     UserDto userDto = userService.getUserByLogin(value);
-                    courseDtoList = courseService.getAllByUserId(userDto.getId());
+                    if (userDto != null)
+                        courseDtoList = courseService.getAllByUserId(userDto.getId());
                     req.setAttribute("message", "elective.courses.filter.login");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
                 case "topic":
                     courseDtoList = courseService.getAllByTopic(value);
                     req.setAttribute("message", "elective.courses.filter.topic");
-                    req.setAttribute("value", value);
+                    req.setAttribute("messageValue", value);
                     break;
             }
 
-        req.setAttribute("courseList", courseDtoList);
         req.setAttribute("dateNow", new SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()));
-
+        req.setAttribute("listSize", courseDtoList.size());
         User currentUser = (User) session.getAttribute("user");
-        if (currentUser.getRoleId() == 1)
+
+        if (currentUser.getRoleId() == 1) {
+            req.setAttribute("courseList", courseDtoList);
             getServletContext().getRequestDispatcher("/courses.jsp").forward(req, resp);
-        else
+        } else {
+            int recordsPerPage = 6;
+            int page = 1;
+            int noOfRecords = courseDtoList.size();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+
+            if (req.getParameter("page") != null)
+                page = Integer.parseInt(req.getParameter("page"));
+
+            int fromIndex = (page - 1) * recordsPerPage;
+            int endIndex = Math.min(fromIndex + recordsPerPage, noOfRecords);
+
+            List<CourseDto> resultList = new ArrayList<>();
+
+            if (!courseDtoList.isEmpty())
+                resultList = courseDtoList.subList(fromIndex, endIndex);
+
+            String servletPath = req.getRequestURI().substring(req.getContextPath().length());
+
+            req.setAttribute("servletPath", servletPath);
+            req.setAttribute("noOfPages", noOfPages);
+            req.setAttribute("currentPage", page);
+            req.setAttribute("courseList", resultList);
+            req.setAttribute("key", key);
+            req.setAttribute("value", value);
+
             getServletContext().getRequestDispatcher("/elective_courses.jsp").forward(req, resp);
+        }
     }
 }
