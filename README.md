@@ -73,3 +73,31 @@ necessary to implement the following functionality:
 
 За три дні до моменту старту захистів проектів (інтерв’ю) необхідно підготувати у
 вигляді окремого файлу схему бази даних, а також надати посилання на репозиторій із проектом
+
+## <a id="extra"></a>Extra functionality
+- send an email when you reset your password, enroll/leave a course
+- captcha for login
+- three failed login attempts and the user will be redirected to the password reset page
+- print reports (for all courses and course with grades)
+- autoload page every 30 minutes for update data and after 61 minutes to end session
+- two indexes for courses (name) and users (login) in the database for faster information retrieval
+- pagination
+- error processing
+- sort courses by it`s name (using like)
+- sort courses by start_date from the current moment and above
+- sort courses by user login
+- was modernised the functionality "At the end of the course the teacher gives the student a grade, which is stored in the journal" to "The course has a separate grade for each topic and an average overall grade"
+- for a better user experience: drop-down lists with up-to-date data, hints, informing the user with messages about the results of his actions, etc.
+
+Application logic:
+- created 1 trigger in user for stop changing role from: student ==> teacher and back if he has at least one course 
+- created 1 trigger in user for stopping deleting user if user has at least 1 course 
+- created 1 stored procedure for checking all statuses in courses (for invoking trigger update in courses)
+- created 2 triggers in courses for checking status and date_start/date_end 
+- created 1 trigger in performance for deleting topic from course if topic doesn't have score bigger than 0 then it can be deleted (deleted due to user want to leave the course)
+- created 1 triggers in performance for checking inputting grade (can be 0 or between 60 and 100) and status must be "CURRENT" (for teacher possibility  to change grades)
+- created 1 trigger in performance for cancelling enroll student or add topics to course if courses status not "NOT_STARTED"
+- created 1 trigger in users_has_courses to prevent the user from leaving the course unless the course status is "NOT_STARTED"
+
+Database Schema:
+![](src/main/resources/scripts/schema.png)
